@@ -1,0 +1,20 @@
+
+FROM php:7.4-apache
+
+# Install MySQL extension
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+# Set working directory
+WORKDIR /var/www/html/
+
+# Copy application source code
+COPY . /var/www/html/
+
+# Update database connection to use Kubernetes service
+ENV DB_HOST=mysql-service
+ENV DB_USER=ecomuser
+ENV DB_PASSWORD=ecompassword
+ENV DB_NAME=ecomdb
+
+# Expose port 80
+EXPOSE 80
